@@ -56,6 +56,7 @@ class AmazonS3Resolver implements ResolverInterface, CacheManagerAwareInterface
     public function __construct(AmazonS3 $storage, $bucket, $acl = AmazonS3::ACL_PUBLIC, array $objUrlOptions = array())
     {
         $this->storage = $storage;
+        $this->storage->set_region(AmazonS3::REGION_EU_W1);
 
         $this->bucket = $bucket;
         $this->acl = $acl;
@@ -87,6 +88,7 @@ class AmazonS3Resolver implements ResolverInterface, CacheManagerAwareInterface
     public function resolve(Request $request, $path, $filter)
     {
         $objectPath = $this->getObjectPath($path, $filter);
+
         if ($this->objectExists($objectPath)) {
             return new RedirectResponse($this->getObjectUrl($objectPath), 301);
         }

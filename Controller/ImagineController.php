@@ -52,6 +52,7 @@ class ImagineController
     public function filterAction(Request $request, $path, $filter)
     {
         $targetPath = $this->cacheManager->resolve($request, $path, $filter);
+
         if ($targetPath instanceof Response) {
             return $targetPath;
         }
@@ -66,6 +67,8 @@ class ImagineController
         if ($targetPath) {
             $response = $this->cacheManager->store($response, $targetPath, $filter);
         }
+
+        $response->headers->set('cache-control', 'public');
 
         return $response;
     }
