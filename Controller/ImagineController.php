@@ -54,6 +54,7 @@ class ImagineController
         $targetPath = $this->cacheManager->resolve($request, $path, $filter);
 
         if ($targetPath instanceof Response) {
+            $targetPath->headers->set('cache-control', 'public');
             return $targetPath;
         }
 
